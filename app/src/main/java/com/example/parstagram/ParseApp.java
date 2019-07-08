@@ -3,6 +3,7 @@ package com.example.parstagram;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 public class ParseApp extends Application {
 
@@ -17,6 +18,8 @@ public class ParseApp extends Application {
                 .build();
 
         Parse.enableLocalDatastore(this);
+
+        ParseObject.registerSubclass(Post.class);
 
         Parse.initialize(configuration);
 
