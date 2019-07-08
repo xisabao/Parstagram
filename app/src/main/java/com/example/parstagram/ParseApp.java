@@ -3,7 +3,6 @@ package com.example.parstagram;
 import android.app.Application;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
 
 public class ParseApp extends Application {
 
@@ -17,10 +16,11 @@ public class ParseApp extends Application {
                 .server("https://xisabao-parstagram.herokuapp.com/parse")
                 .build();
 
+        Parse.enableLocalDatastore(this);
+
         Parse.initialize(configuration);
 
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+
+
     }
 }
