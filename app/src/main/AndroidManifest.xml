@@ -16,7 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PostActivity"></activity>
+        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".PostActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -25,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.codepath.fileprovider"
@@ -34,7 +36,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/fileprovider" />
         </provider>
-
     </application>
 
 </manifest>

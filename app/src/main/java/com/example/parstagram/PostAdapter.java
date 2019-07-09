@@ -1,6 +1,7 @@
 package com.example.parstagram;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,11 +90,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvDescription = itemView.findViewById(R.id.tvDescription);
             ivImage = itemView.findViewById(R.id.ivImage);
 
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            // TO DO: implement DetailActivity and send intent
+            int position = getAdapterPosition();
+
+            if (position != RecyclerView.NO_POSITION) {
+                // get the movie at the position
+                Post post = mPosts.get(position);
+                // create intent for the new activity
+                Intent intent = new Intent(context, DetailActivity.class);
+                // serialize the movie using parceler, use its short name as a key
+                intent.putExtra("post_id", post.getObjectId());
+                // show the activity
+                context.startActivity(intent);
+            }
         }
     }
 }

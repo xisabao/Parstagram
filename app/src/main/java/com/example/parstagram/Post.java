@@ -1,5 +1,7 @@
 package com.example.parstagram;
 
+import android.text.format.DateUtils;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -33,5 +35,9 @@ public class Post extends ParseObject {
 
     public void setUser(ParseUser parseUser) {
         put(KEY_USER, parseUser);
+    }
+
+    public String getRelativeTime() {
+        return (String) DateUtils.getRelativeTimeSpanString(getCreatedAt().getTime());
     }
 }
