@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -26,6 +27,7 @@ public class HomeActivity extends AppCompatActivity {
     public RecyclerView rvPosts;
     ArrayList<Post> posts;
     PostAdapter postAdapter;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,22 @@ public class HomeActivity extends AppCompatActivity {
 
         logoutBtn = findViewById(R.id.logoutBtn);
         postBtn = findViewById(R.id.postBtn);
+
+        swipeContainer = findViewById(R.id.swipeContainer);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryPosts();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
 
 
         logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,14 +100,9 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void done(List<Post> postList, ParseException e) {
                 if (e == null) {
+                    postAdapter.clear();
                     Log.d(TAG, "Got " + postList.size() + " posts");
-                    for (int i = 0; i < postList.size(); i++) {
-                        Log.d(TAG, "Post: " + postList.get(i).getDescription() + " username: " + postList.get(i).getUser().getUsername());
-                        posts.add(postList.get(i));
-                        postAdapter.notifyItemInserted(i);
-                    }
-                    //posts = (ArrayList<Post>) postList;
-                    //postAdapter.notifyDataSetChanged();
+                    postAdapter.addAll(postList);
                 } else {
                     Log.d(TAG, "Error: " + e.getMessage());
                 }
