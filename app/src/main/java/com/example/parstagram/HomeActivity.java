@@ -1,112 +1,81 @@
 package com.example.parstagram;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.parstagram.fragments.ComposeFragment;
+import com.example.parstagram.fragments.PostsFragment;
+import com.example.parstagram.fragments.ProfileFragment;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeActivity extends AppCompatActivity {
     private final String TAG ="HomeActivity";
     public Button logoutBtn;
-    public Button postBtn;
+    private BottomNavigationView bottomNavigationView;
 
-    public RecyclerView rvPosts;
-    ArrayList<Post> posts;
-    PostAdapter postAdapter;
-    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        rvPosts = findViewById(R.id.rvPosts);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        posts = new ArrayList<>();
-        postAdapter = new PostAdapter(posts);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        rvPosts.setLayoutManager(linearLayoutManager);
-        rvPosts.setAdapter(postAdapter);
-
-        logoutBtn = findViewById(R.id.logoutBtn);
-        postBtn = findViewById(R.id.postBtn);
-
-        swipeContainer = findViewById(R.id.swipeContainer);
-
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onRefresh() {
-                queryPosts();
-                swipeContainer.setRefreshing(false);
-            }
-        });
-
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
-
-
-
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logout();
-            }
-        });
-
-        postBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final Intent intent = new Intent(HomeActivity.this, PostActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        queryPosts();
-
-    }
-
-    private void logout() {
-        ParseUser currentUser = ParseUser.getCurrentUser();
-        if (currentUser != null) {
-            ParseUser.logOut();
-        }
-        final Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void queryPosts() {
-        ParseQuery<Post> postQuery = ParseQuery.getQuery("Post");
-        postQuery.include("user");
-        postQuery.setLimit(20);
-        postQuery.orderByDescending("createdAt");
-        postQuery.findInBackground(new FindCallback<Post>() {
-            @Override
-            public void done(List<Post> postList, ParseException e) {
-                if (e == null) {
-                    postAdapter.clear();
-                    Log.d(TAG, "Got " + postList.size() + " posts");
-                    postAdapter.addAll(postList);
-                } else {
-                    Log.d(TAG, "Error: " + e.getMessage());
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                Fragment fragment = new PostsFragment();
+                switch (menuItem.getItemId()) {
+                    case R.id.action_compose:
+                        fragment = new ComposeFragment();
+                        break;
+                    case R.id.action_home:
+                        fragment = new PostsFragment();
+                        break;
+                    case R.id.action_profile:
+                        fragment = new ProfileFragment();
+                        break;
+                    default:
+                        break;
                 }
-            }
+                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                return true;
+                }
         });
+
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
+
+
+//        logoutBtn = findViewById(R.id.logoutBtn);
+
+
+//
+//        logoutBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                logout();
+//            }
+//        });
+
+
     }
+
+//    private void logout() {
+//        ParseUser currentUser = ParseUser.getCurrentUser();
+//        if (currentUser != null) {
+//            ParseUser.logOut();
+//        }
+//        final Intent intent = new Intent(HomeActivity.this, MainActivity.class);
+//        startActivity(intent);
+//        finish();
+//    }
+
+
 }
