@@ -50,6 +50,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         holder.tvUsername.setText(post.getUser().getUsername());
         holder.tvDescription.setText(post.getDescription());
+        holder.tvTimestamp.setText(post.getRelativeTime());
         Log.d(TAG, "URL: " + post.getImage().getUrl());
         Glide.with(context).load(post.getImage().getUrl())
                 .listener(new RequestListener<String, GlideDrawable>() {
@@ -81,6 +82,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView tvUsername;
         public TextView tvDescription;
+        public TextView tvTimestamp;
         public ImageView ivImage;
 
         public ViewHolder(View itemView) {
@@ -89,6 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvUsername = itemView.findViewById(R.id.tvUsername);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             ivImage = itemView.findViewById(R.id.ivImage);
+            tvTimestamp = itemView.findViewById(R.id.tvTimestamp);
 
             itemView.setOnClickListener(this);
         }
