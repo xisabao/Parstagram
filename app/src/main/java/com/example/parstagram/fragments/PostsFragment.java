@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.parstagram.EndlessRecyclerViewScrollListener;
 import com.example.parstagram.Post;
 import com.example.parstagram.PostAdapter;
 import com.example.parstagram.R;
@@ -25,10 +26,12 @@ import java.util.List;
 
 public class PostsFragment extends Fragment {
     private final String TAG = "PostsFragment";
+    protected final int POST_LIMIT = 20;
     protected RecyclerView rvPosts;
     protected ArrayList<Post> posts;
     protected PostAdapter postAdapter;
     private SwipeRefreshLayout swipeContainer;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     @Nullable
     @Override
@@ -53,7 +56,9 @@ public class PostsFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                queryPosts();
+                postAdapter.clear();
+                queryPosts(0);
+                scrollListener.resetState();
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -63,21 +68,33 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        queryPosts();
+        queryPosts(0);
+
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                queryPosts(page);
+            }
+        };
+
+        rvPosts.addOnScrollListener(scrollListener);
 
     }
 
 
-    protected void queryPosts() {
+    protected void queryPosts(final int offset) {
         ParseQuery<Post> postQuery = ParseQuery.getQuery("Post");
         postQuery.include("user");
-        postQuery.setLimit(20);
+        postQuery.setLimit(POST_LIMIT);
+        postQuery.setSkip(offset * POST_LIMIT);
         postQuery.orderByDescending("createdAt");
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> postList, ParseException e) {
                 if (e == null) {
-                    postAdapter.clear();
+                    if (offset == 0) {
+                        postAdapter.clear();
+                    }
                     Log.d(TAG, "Got " + postList.size() + " posts");
                     postAdapter.addAll(postList);
                 } else {

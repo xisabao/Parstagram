@@ -15,17 +15,20 @@ public class ProfileFragment extends PostsFragment {
 
 
     @Override
-    protected void queryPosts() {
+    protected void queryPosts(final int offset) {
         ParseQuery<Post> postQuery = ParseQuery.getQuery("Post");
         postQuery.include(Post.KEY_USER);
-        postQuery.setLimit(20);
+        postQuery.setLimit(POST_LIMIT);
+        postQuery.setSkip(offset * POST_LIMIT);
         postQuery.whereEqualTo(Post.KEY_USER, ParseUser.getCurrentUser());
         postQuery.orderByDescending("createdAt");
         postQuery.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> postList, ParseException e) {
                 if (e == null) {
-                    postAdapter.clear();
+                    if (offset == 0) {
+                        postAdapter.clear();
+                    }
                     Log.d(TAG, "Got " + postList.size() + " posts");
                     postAdapter.addAll(postList);
                 } else {
