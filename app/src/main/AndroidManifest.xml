@@ -19,7 +19,7 @@
         <activity android:name=".DetailActivity"></activity>
         <activity android:name=".PostActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
