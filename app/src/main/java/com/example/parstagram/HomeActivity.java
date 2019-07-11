@@ -1,11 +1,13 @@
 package com.example.parstagram;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -17,7 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class HomeActivity extends AppCompatActivity {
     private final String TAG ="HomeActivity";
     public Button logoutBtn;
-    private BottomNavigationView bottomNavigationView;
+    public BottomNavigationView bottomNavigationView;
+    public MenuItem miActionProgressItem;
 
 
     @Override
@@ -52,6 +55,11 @@ public class HomeActivity extends AppCompatActivity {
 
         bottomNavigationView.setSelectedItemId(R.id.action_home);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
 //        logoutBtn = findViewById(R.id.logoutBtn);
 
@@ -67,7 +75,25 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-//    private void logout() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        return true;
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+
+
+    //    private void logout() {
 //        ParseUser currentUser = ParseUser.getCurrentUser();
 //        if (currentUser != null) {
 //            ParseUser.logOut();

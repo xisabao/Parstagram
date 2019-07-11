@@ -36,6 +36,7 @@ import java.io.FileOutputStream;
 public class ComposeFragment extends Fragment {
 
     private final String TAG = "ComposeFragment";
+    private HomeActivity activity;
 
     private EditText etDescription;
     private Button btnCaptureImage;
@@ -55,6 +56,7 @@ public class ComposeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        activity = (HomeActivity) getActivity();
         etDescription = view.findViewById(R.id.etDescription);
         btnCaptureImage = view.findViewById(R.id.btnCaptureImage);
         ivPostImage = view.findViewById(R.id.ivPostImage);
@@ -70,11 +72,14 @@ public class ComposeFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((HomeActivity) getActivity()).showProgressBar();
+
                 String description = etDescription.getText().toString();
                 ParseUser user = ParseUser.getCurrentUser();
                 if (photoFile == null || ivPostImage.getDrawable() == null) {
                     Log.e(TAG, "No photo to submit");
                     Toast.makeText(getContext(), "There is no photo!", Toast.LENGTH_SHORT).show();
+                    activity.hideProgressBar();
                     return;
                 }
                 savePost(description, user, photoFile);
@@ -149,11 +154,14 @@ public class ComposeFragment extends Fragment {
                 if (e != null) {
                     Log.d(TAG, "Error while saving");
                     e.printStackTrace();
+                    activity.hideProgressBar();
                     return;
                 } else {
-                    Log.d(TAG, "Success!");
-                    etDescription.setText("");
-                    ivPostImage.setImageResource(0);
+                    Toast.makeText(activity, "Success!", Toast.LENGTH_SHORT).show();
+                    activity.hideProgressBar();
+                    // take user back to posts fragment
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.flContainer, new PostsFragment()).commit();
+                    activity.bottomNavigationView.setSelectedItemId(R.id.action_home);
                 }
             }
         });
