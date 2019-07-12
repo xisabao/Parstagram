@@ -41,5 +41,7 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
 
+    implementation 'jp.co.cyberagent.android.gpuimage:gpuimage-library:1.4.1'
+    implementation 'jp.wasabeef:glide-transformations:2.0.2'
 
 }

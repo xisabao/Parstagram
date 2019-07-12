@@ -15,6 +15,7 @@ import com.example.parstagram.fragments.ComposeFragment;
 import com.example.parstagram.fragments.PostsFragment;
 import com.example.parstagram.fragments.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseUser;
 
 public class HomeActivity extends AppCompatActivity {
     private final String TAG ="HomeActivity";
@@ -43,7 +44,7 @@ public class HomeActivity extends AppCompatActivity {
                         fragment = new PostsFragment();
                         break;
                     case R.id.action_profile:
-                        fragment = new ProfileFragment();
+                        fragment = ProfileFragment.newInstance(ParseUser.getCurrentUser().getObjectId());
                         break;
                     default:
                         break;
@@ -60,25 +61,13 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-
-//        logoutBtn = findViewById(R.id.logoutBtn);
-
-
-//
-//        logoutBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                logout();
-//            }
-//        });
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // showProgressBar(); - there is no point of this, keep getting null pointer on hide
         return true;
     }
 
@@ -91,17 +80,6 @@ public class HomeActivity extends AppCompatActivity {
         // Hide progress item
         miActionProgressItem.setVisible(false);
     }
-
-
-    //    private void logout() {
-//        ParseUser currentUser = ParseUser.getCurrentUser();
-//        if (currentUser != null) {
-//            ParseUser.logOut();
-//        }
-//        final Intent intent = new Intent(HomeActivity.this, MainActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
 
 
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeActivity">
+    tools:context=".EditProfileActivity">
 
     <EditText
         android:id="@+id/etDescription"
@@ -15,7 +15,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:ems="10"
-        android:hint="Description"
+        android:hint="Biography"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/blue_rounded_button"
-        android:text="Capture Image"
+        android:text="Capture Profile Image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="32dp"
         android:background="@drawable/green_rounded_button"
-        android:text="Submit"
+        android:text="Change profile"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

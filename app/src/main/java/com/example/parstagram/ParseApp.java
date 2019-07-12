@@ -2,6 +2,8 @@ package com.example.parstagram;
 
 import android.app.Application;
 
+import com.example.parstagram.models.Komment;
+import com.example.parstagram.models.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
@@ -20,6 +22,7 @@ public class ParseApp extends Application {
         Parse.enableLocalDatastore(this);
 
         ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Komment.class);
 
         Parse.initialize(configuration);
 

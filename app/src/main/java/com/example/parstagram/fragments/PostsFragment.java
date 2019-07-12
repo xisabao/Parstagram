@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.parstagram.EndlessRecyclerViewScrollListener;
-import com.example.parstagram.Post;
-import com.example.parstagram.PostAdapter;
 import com.example.parstagram.R;
+import com.example.parstagram.adapters.PostAdapter;
+import com.example.parstagram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -26,7 +26,7 @@ import java.util.List;
 
 public class PostsFragment extends Fragment {
     private final String TAG = "PostsFragment";
-    protected final int POST_LIMIT = 20;
+    public static final int POST_LIMIT = 20;
     protected RecyclerView rvPosts;
     protected ArrayList<Post> posts;
     protected PostAdapter postAdapter;
@@ -46,7 +46,7 @@ public class PostsFragment extends Fragment {
         rvPosts = view.findViewById(R.id.rvPosts);
 
         posts = new ArrayList<>();
-        postAdapter = new PostAdapter(posts);
+        postAdapter = new PostAdapter(posts, true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         rvPosts.setLayoutManager(linearLayoutManager);
         rvPosts.setAdapter(postAdapter);
@@ -79,12 +79,15 @@ public class PostsFragment extends Fragment {
 
         rvPosts.addOnScrollListener(scrollListener);
 
+
+
     }
 
 
     protected void queryPosts(final int offset) {
         ParseQuery<Post> postQuery = ParseQuery.getQuery("Post");
         postQuery.include("user");
+        postQuery.include("likes");
         postQuery.setLimit(POST_LIMIT);
         postQuery.setSkip(offset * POST_LIMIT);
         postQuery.orderByDescending("createdAt");
@@ -97,8 +100,11 @@ public class PostsFragment extends Fragment {
                     }
                     Log.d(TAG, "Got " + postList.size() + " posts");
                     postAdapter.addAll(postList);
+
+
                 } else {
                     Log.d(TAG, "Error: " + e.getMessage());
+
                 }
             }
         });

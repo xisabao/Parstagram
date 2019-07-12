@@ -7,6 +7,17 @@
     android:layout_height="wrap_content"
     android:paddingBottom="16dp">
 
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvUsername"
@@ -14,32 +25,56 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:text="TextView"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/ivProfile"
+        app:layout_constraintTop_toTopOf="@+id/ivProfile" />
 
     <ImageView
         android:id="@+id/ivImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvUsername"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfile"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btLike"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ufi_heart_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivImage" />
+
+    <Button
+        android:id="@+id/btComment"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/ufi_comment"
+        app:layout_constraintStart_toEndOf="@+id/btLike"
+        app:layout_constraintTop_toTopOf="@+id/btLike" />
 
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivImage" />
+        app:layout_constraintTop_toBottomOf="@+id/btLike" />
 
     <TextView
         android:id="@+id/tvTimestamp"

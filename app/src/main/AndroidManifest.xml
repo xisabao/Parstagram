@@ -16,9 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DetailActivity"></activity>
+        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".DetailActivity" />
         <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity" android:theme="@style/AppTheme.NoActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
